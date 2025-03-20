@@ -12,7 +12,8 @@ import numpy as np
 from tqdm import tqdm 
 import hydra
 from pdebench.data_gen.src import data_io
-from pdebench.data_gen.src import image_processor
+# from pdebench.data_gen.src import image_processor
+from pdb import set_trace as bp
 
 log = logging.getLogger(__name__)
 
@@ -90,11 +91,11 @@ def ns_sim(
             Box: A Box type of Phiflow
         """
         if x == None:
-            return Box[:, 0:y]
+            return Box['x,y', :, 0:y]
         elif y == None:
-            return Box[0:x, :]
+            return Box['x,y', 0:x, :]
         else:
-            return Box[0:x, 0:y]
+            return Box['x,y', 0:x, 0:y]
 
 
 
@@ -181,8 +182,8 @@ def ns_sim(
         )
     if save_images:
         def _save_img(frame_i, t, particles, velocity, **kwargs):
-            particles_images.append()
-            velocity_images.append()
+            particles_images.append(particles)
+            velocity_images.append(velocity)
         callbacks.append(
             _save_img 
         )

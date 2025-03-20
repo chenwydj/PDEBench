@@ -3,7 +3,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-requires-python = ">=3.9,<3.11"
+# requires-python = ">=3.9,<3.11"
 dynamic = ["readme"]
 name = "pdebench"
 version = "0.1.0"
@@ -25,8 +25,10 @@ dependencies = [
     "pandas",                  
     "python-dotenv",          
     "hydra-core",              
-    "torch~=1.13.0",
-    "torchvision~=0.14.1",             
+    # "torch~=1.13.0",
+    # "torchvision~=0.14.1",
+    "torch~=2.2.0",
+    "torchvision~=0.17.0",
     "deepxde~=1.1.3",                 
     "pyro-ppl",                       
     "tqdm",
@@ -44,10 +46,12 @@ datagen310 = [
     "phiflow",
     "imageio",
     "einops",
-    "torch @ https://download.pytorch.org/whl/cu117/torch-1.13.1%2Bcu117-cp310-cp310-linux_x86_64.whl",
-    "torchvision @ https://download.pytorch.org/whl/cu117/torchvision-0.14.1%2Bcu117-cp310-cp310-linux_x86_64.whl",
-    "jax==0.4.11",
-    "jaxlib @ https://storage.googleapis.com/jax-releases/cuda11/jaxlib-0.4.11+cuda11.cudnn86-cp310-cp310-manylinux2014_x86_64.whl",
+    # "torch @ https://download.pytorch.org/whl/cu117/torch-1.13.1%2Bcu117-cp310-cp310-linux_x86_64.whl",
+    # "torchvision @ https://download.pytorch.org/whl/cu117/torchvision-0.14.1%2Bcu117-cp310-cp310-linux_x86_64.whl",
+    # "jax==0.4.11",
+    "jax",
+    # "jaxlib @ https://storage.googleapis.com/jax-releases/cuda11/jaxlib-0.4.11+cuda11.cudnn86-cp310-cp310-manylinux2014_x86_64.whl",
+    "jaxlib",
 ]
 datagen39 = [
     "clawpack@git+https://github.com/clawpack/clawpack.git@d619d6835ce128a0421aa52d70d2a6c9d9d1ce93",
