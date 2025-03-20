@@ -3,7 +3,7 @@ defaults:
 
   - mode: default.yaml
 
-artefact_dir: ${oc.env:ARTEFACT_DIR,artefacts}
+# artefact_dir: ${oc.env:ARTEFACT_DIR,artefacts} # TODO
 dataverse:
   dataset_id: doi:10.18419/darus-2984
 
