@@ -38,8 +38,11 @@ def ns_sim(
     particle_extrapolation: str = "BOUNDARY",
     velocity_extrapolation: str = "ZERO",
     NU: float = 0.01,
-    scale: float = 10.0,
+    domain_size=[1, 1],
     smoothness: float = 3.0,
+    scale: float = 0.15,
+    force_smoothness: float = 1.0,
+    force_scale: float = 0.4,
     grid_size=(100, 100),
     enable_gravity: bool = False,
     enable_obstacles: bool = False,
@@ -134,6 +137,11 @@ def ns_sim(
             return Box['x,y', 0:x, :]
         else:
             return Box['x,y', 0:x, 0:y]
+        # if x is None:
+        #     return Box[:, 0:y]
+        # if y is None:
+        #     return Box[0:x, :]
+        return Box['x,y', 0:x, 0:y]
 
     def cauchy_momentum_step(
         velocity, particles, body_acceleration, NU, DT, obstacles: tuple | None = None
@@ -223,6 +231,8 @@ def ns_sim(
         def _save_img(frame_i, t, particles, velocity, **kwargs):
             particles_images.append(particles)
             velocity_images.append(velocity)
+            # particles_images.append()
+            # velocity_images.append()
 
         callbacks.append(_save_img)
 
@@ -237,7 +247,8 @@ def ns_sim(
             extrapolation=getattr(extrapolation, particle_extrapolation),
             x=grid_size[0],
             y=grid_size[1],
-            bounds=bounds_select(*grid_size),
+            # bounds=bounds_select(*grid_size),
+            bounds=Box(x=(0, domain_size[0]), y=(0, domain_size[1]))
         )
 
         # Initialization of the velocity grid with a Phiflow Noise() method
@@ -246,7 +257,8 @@ def ns_sim(
             extrapolation=getattr(extrapolation, velocity_extrapolation),
             x=grid_size[0],
             y=grid_size[1],
-            bounds=bounds_select(*grid_size),
+            # bounds=bounds_select(*grid_size),
+            bounds=Box(x=(0, domain_size[0]), y=(0, domain_size[1]))
         )
 
         # Initialization of the force grid. The force is also a staggered grid with a Phiflow Noise() method or using gravity
@@ -254,11 +266,15 @@ def ns_sim(
             force = math.tensor(batch(batch=n_batch), [0, -9.81])
         else:
             force = StaggeredGrid(
-                Noise(batch(batch=n_batch), vector=2),
+                # TODO ################################
+                # Noise(batch(batch=n_batch), vector=2),
+                Noise(batch(batch=n_batch), vector=2, scale=force_scale, smoothness=force_smoothness),
+                ######################################
                 extrapolation=getattr(extrapolation, force_extrapolation),
                 x=grid_size[0],
                 y=grid_size[1],
-                bounds=bounds_select(*grid_size),
+                # bounds=bounds_select(*grid_size),
+                bounds=Box(x=(0, domain_size[0]), y=(0, domain_size[1]))
             )
 
         data_store["force"][:, ...] = data_io.to_ndarray(force)

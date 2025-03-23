@@ -29,10 +29,15 @@ force_extrapolation: "ZERO"
 
 # Fluctuation Generator Parameters (Noise)
 seed: 1
-smoothness: 1.0
-scale: 0.4
-# force_smoothness: 3.0 # TODO
-# force_scale: 0.15 # TODO
+## TODO #########################
+# smoothness: 1.0
+# scale: 0.4
+## TODO #########################
+smoothness: 3.0
+scale: 0.15
+#################################
+force_smoothness: 1.0
+force_scale: 0.4
 
 #params for IncompressibleFlow(Physics)
 n_steps: 100000
@@ -48,6 +53,6 @@ save_h5: true
 profile: false # Run performance profiling
 upload: false # upload to DARUS - requires key
 
-backend: "jax"
+backend: "pytorch"
 device: "GPU"
 jit: true
